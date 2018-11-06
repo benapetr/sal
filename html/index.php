@@ -22,5 +22,11 @@ $w = new HtmlPage("Server admin log");
 bootstrap_init($w);
 
 $w->AppendHeader("Server admin log");
+$w->AppendHtmlLine("<samp>\n");
+foreach ($backend->Read() as $item)
+{
+    $w->AppendHtmlLine(date(DATE_ATOM, $item->Time) . " " . $item->User . ": " . htmlspecialchars($item->Text) . "<br>");
+}
+$w->AppendHtmlLine("</samp>\n");
 
 $w->PrintHtml();

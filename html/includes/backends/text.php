@@ -20,15 +20,24 @@ class SalBackend_Text extends SalBackend
 
     public function Write($item)
     {
-         if (!file_put_contents($this->Path, $item->Time . "|" . $item->User . ": " . $item->Text . "\n", FILE_APPEND | LOCK_EX))
-             return false;
-         return true;
+        $item->User = str_replace("|", "_", $item->User);
+        if (!file_put_contents($this->Path, $item->Time . "|" . $item->User . "|" . $item->Text . "\n", FILE_APPEND | LOCK_EX))
+            return false;
+        return true;
     }
 
     public function Read()
     {
         $result = [];
-
+        $text = file_get_contents($this->Path);
+        $items = explode("\n", $text);
+        foreach ($items as $item)
+        {
+            if (strlen($item) < 2)
+                continue;
+            $parts = explode("|", $item);
+            $result[] = new SalItem($parts[0], $parts[1], $parts[2]);
+        }
         return $result;
     }
 };
