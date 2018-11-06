@@ -1,0 +1,28 @@
+#!/usr/bin/env php
+<?php
+
+$install_path = "/opt/sal";
+
+require_once($install_path . "/html/includes/backends/text.php");
+
+$backend = new SalBackend_Text();
+
+function Fatal($error)
+{
+    die($error . "\n");
+}
+
+if (count($argv) < 2)
+    Fatal("Not enough parameters");
+
+$user = shell_exec("whoami");
+$time = time();
+
+// Fetch the input - merge all arguments into one
+$input_size = count($argv);
+$current_arg = 2;
+$input = $argv[1];
+while ($current_arg < $input_size)
+{
+    $input .= $argv[$current_arg++];
+}
