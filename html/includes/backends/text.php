@@ -20,7 +20,9 @@ class SalBackend_Text extends SalBackend
 
     public function Write($item)
     {
-    
+         if (!file_put_contents($this->Path, $item->Time . "|" . $item->User . ": " . $item->Text . "\n", FILE_APPEND | LOCK_EX))
+             return false;
+         return true;
     }
 
     public function Read()

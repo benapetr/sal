@@ -12,6 +12,7 @@
 
 // Copyright (c) Petr Bena <petr@bena.rocks> 2018
 
+require_once(dirname(__FILE__) . "/../salitem.php");
 
 class SalBackend
 {

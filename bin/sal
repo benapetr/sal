@@ -15,7 +15,7 @@ function Fatal($error)
 if (count($argv) < 2)
     Fatal("Not enough parameters");
 
-$user = shell_exec("whoami");
+$user = str_replace("\n", "", shell_exec("whoami"));
 $time = time();
 
 // Fetch the input - merge all arguments into one
@@ -24,5 +24,11 @@ $current_arg = 2;
 $input = $argv[1];
 while ($current_arg < $input_size)
 {
-    $input .= $argv[$current_arg++];
+    $input .= " " . $argv[$current_arg++];
 }
+if (!$backend->Write(new SalItem($time, $user, $input)))
+{
+    Fatal("Unable to write message");
+}
+echo ("Message logged\n");
+
